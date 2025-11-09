@@ -217,7 +217,7 @@ const searchBarError = () => {
 } 
 
 //Main trigger for the entire website
-searchbtn.addEventListener('click', async ()=>{
+async function main(){
     let city = searchbox.value;
     if(city.trim() === ""){
         city = defaultCity;
@@ -231,4 +231,10 @@ searchbtn.addEventListener('click', async ()=>{
         await getFutureData(url2);
     }
     catch{}
-});
+}
+
+//Triggers on pressing search button
+searchbtn.addEventListener('click', main);
+
+// Triggers when load
+main();
