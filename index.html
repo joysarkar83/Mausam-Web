@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mausam</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="sunny">
+    <video src="" class="bg" autoplay muted loop></video>
+    <nav>
+        <input type="text" placeholder="Search a Location" id="searchbox" class="glass-card-small">
+        <button id="searchbtn" class="glass-card-small"><img src="/Resources/SVGs/search.svg"></button>
+    </nav>
+
+    <div class="main">
+        <div class="main-left glass-card-large">
+            <div class="main-left-hero">
+                <p class="temp" id="currTemp">32°C</p>
+                <p id="tempDesc">Sunny Day</p>
+            </div>
+
+            <div class="main-left-container">
+                <div class="main-left-tabs glass-card-small">
+                    <div class="main-left-tab-title">
+                        <img src="/Resources/SVGs/temp.svg">
+                        <p>FEELS LIKE</p>
+                    </div>
+                    <p class="main-left-tab-content" id="feelsLike">30°C</p>
+                </div>
+
+                <div class="main-left-tabs glass-card-small">
+                    <div class="main-left-tab-title">
+                        <img src="/Resources/SVGs/pressure.svg">
+                        <p>PRESSURE</p>
+                    </div>
+                    <p class="main-left-tab-content" id="pressure">1.5 hPa</p>
+                </div>
+                
+                <div class="main-left-tabs glass-card-small">
+                    <div class="main-left-tab-title">
+                        <img src="/Resources/SVGs/wind.svg">
+                        <p>WIND</p>
+                    </div>
+                    <p class="main-left-tab-content" id="wind">10 m/s</p>
+                </div>
+
+                <div class="main-left-tabs glass-card-small">
+                    <div class="main-left-tab-title">
+                        <img src="/Resources/SVGs/humidity.svg">
+                        <p>HUMIDITY</p>
+                    </div>
+                    <p class="main-left-tab-content" id="humidity">82%</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="main-right">
+            <div class="main-right-large glass-card-large">
+                <div class="main-left-tab-title main-right-tab-title">
+                    <img src="/Resources/SVGs/time.svg">
+                    <p>HOURLY FORECAST</p>
+                </div>
+                <div class="main-right-large-content">
+                    <div class="main-right-large-tab glass-card-small">
+                        <p class="date-or-time" id="hour1">07/11</p>
+                        <img src="">
+                        <p class="temp-forecast" id="h1">22°C</p>
+                    </div>
+                    <div class="main-right-large-tab glass-card-small">
+                        <p class="date-or-time" id="hour2">07/11</p>
+                        <img src="">
+                        <p class="temp-forecast" id="h2">22°C</p>
+                    </div>
+                    <div class="main-right-large-tab glass-card-small">
+                        <p class="date-or-time" id="hour3">07/11</p>
+                        <img src="">
+                        <p class="temp-forecast" id="h3">22°C</p>
+                    </div>
+                    <div class="main-right-large-tab glass-card-small">
+                        <p class="date-or-time" id="hour4">07/11</p>
+                        <img src="">
+                        <p class="temp-forecast" id="h4">22°C</p>
+                    </div>
+                    <div class="main-right-large-tab glass-card-small">
+                        <p class="date-or-time" id="hour5">07/11</p>
+                        <img src="">
+                        <p class="temp-forecast" id="h5">22°C</p>
+                    </div>
+                </div>
+            </div>
+            <div class="main-right-large glass-card-large">
+                <div class="main-left-tab-title main-right-tab-title">
+                    <img src="/Resources/SVGs/calendar.svg">
+                    <p>5-DAYS FORECAST</p>
+                </div>
+                <div class="main-right-large-content">
+                    <div class="main-right-large-tab glass-card-small">
+                        <p class="date-or-time" id="date1">07/11</p>
+                        <img src="">
+                        <p class="temp-forecast" id="d1">22°C</p>
+                    </div>
+                    <div class="main-right-large-tab glass-card-small">
+                        <p class="date-or-time" id="date2">07/11</p>
+                        <img src="">
+                        <p class="temp-forecast" id="d2">22°C</p>
+                    </div>
+                    <div class="main-right-large-tab glass-card-small">
+                        <p class="date-or-time" id="date3">07/11</p>
+                        <img src="">
+                        <p class="temp-forecast" id="d3">22°C</p>
+                    </div>
+                    <div class="main-right-large-tab glass-card-small">
+                        <p class="date-or-time" id="date4">07/11</p>
+                        <img src="">
+                        <p class="temp-forecast" id="d4">22°C</p>
+                    </div>
+                    <div class="main-right-large-tab glass-card-small">
+                        <p class="date-or-time" id="date5">07/11</p>
+                        <img src="">
+                        <p class="temp-forecast" id="d5">22°C</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="main-right-smalls">
+                <div class="main-right-small glass-card-large">
+                    <div class="main-left-tab-title main-right-tab-title">
+                        <img src="/Resources/SVGs/temp-max.svg">
+                        <p>MAX TEMP</p>
+                    </div>
+                    <p class="main-left-tab-content" id="maxTemp">35°C</p>
+                </div>
+                <div class="main-right-small glass-card-large">
+                    <div class="main-left-tab-title main-right-tab-title">
+                        <img src="/Resources/SVGs/temp_min.svg">
+                        <p>MIN TEMP</p>
+                    </div>
+                    <p class="main-left-tab-content" id="minTemp">28°C</p>
+                </div>
+                <div class="main-right-small glass-card-large">
+                    <div class="main-left-tab-title main-right-tab-title">
+                        <img src="/Resources/SVGs/time.svg">
+                        <p>LOCAL TIME</p>
+                    </div>
+                    <p class="main-left-tab-content" id="cityTime">00:00</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="config.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
