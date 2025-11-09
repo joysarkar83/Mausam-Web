@@ -48,7 +48,7 @@ async function getFutureData(url2){
 const changeBG = (val) => {
     val = Number(val);
     if(val == 800){
-        bg.setAttribute('src', '/Resources/Videos/clear.mp4')
+        bg.setAttribute('src', '/Resources/Videos/sunny.mp4')
     }
     else if(val>=200 && val<=299) {
         bg.setAttribute('src', '/Resources/Videos/thunderStorm.mp4')
