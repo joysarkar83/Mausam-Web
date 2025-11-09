@@ -288,6 +288,11 @@ async function main(){
 
 //Triggers on pressing search button
 searchbtn.addEventListener('click', main);
+document.addEventListener('keypress', (event) => {
+    if(event.key == 'Enter'){
+        main();
+    }
+});
 
 // Triggers when load
 main();
