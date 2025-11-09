@@ -181,7 +181,6 @@ nav{
     gap: 10px;
 }
 
-
 /* Resposiveness */
 @media (max-width: 1100px) {
     .main-left-tab-title p{
@@ -197,6 +196,11 @@ nav{
     }
     .main-left-tab-content{
         font-size: 1.5rem;
+    }
+    .d-img, .h-img{
+        height: 1rem;
+        width: 1rem;
+        transform: scale(1.5);
     }
 }
 @media (max-width: 800px) {

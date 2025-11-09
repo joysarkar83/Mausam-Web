@@ -48,22 +48,22 @@ async function getFutureData(url2){
 const changeBG = (val) => {
     val = Number(val);
     if(val == 800){
-        bg.setAttribute('src', '/Resources/Videos/sunny.mp4')
+        bg.setAttribute('src', '/Resources/Videos/clear.mp4');
     }
     else if(val>=200 && val<=299) {
-        bg.setAttribute('src', '/Resources/Videos/thunderStorm.mp4')
+        bg.setAttribute('src', '/Resources/Videos/thunderstorm.mp4');
     }
     else if(val>=300 && val<=599) {
-        bg.setAttribute('src', '/Resources/Videos/rain.mp4')
+        bg.setAttribute('src', '/Resources/Videos/rain.mp4');
     }
     else if(val>=600 && val<=699) {
-        bg.setAttribute('src', '/Resources/Videos/snow.mp4')
+        bg.setAttribute('src', '/Resources/Videos/snow.mp4');
     }
     else if(val>=700 && val<=799) {
-        bg.setAttribute('src', '/Resources/Videos/foggy.mp4')
+        bg.setAttribute('src', '/Resources/Videos/fog.mp4');
     }
     else if(val>=801 && val<=899) {
-        bg.setAttribute('src', '/Resources/Videos/cloudy.mp4')
+        bg.setAttribute('src', '/Resources/Videos/cloud.mp4');
     }
 }
 const changeTemp = (val) => {
@@ -97,6 +97,27 @@ const changeCityTime = (unixUTC, timezoneOffset) => {
     const timeStr = localTime.toISOString().substring(11, 16);
     cityTime.innerText = timeStr;
 };
+const changeHour = (hours) => {
+    for(let i=0; i<5; i++){
+        let currElem = `hour${i+1}`;
+        let elem = document.querySelector(`#${currElem}`);
+        elem.innerText = hours[i];
+    }
+}
+const changeHourlyTemp = (hourlyTemp) => {
+    for(let i=0; i<5; i++){
+        let currElem = `h${i+1}`;
+        let elem = document.querySelector(`#${currElem}`);
+        elem.innerText = hourlyTemp[i] + "°C";
+    }
+}
+const changeHourlyImg= (hourlyTempCodes) => {
+    for(let i=0; i<5; i++){
+        let currElem = `h-img${i+1}`;
+        let elem = document.querySelector(`#${currElem}`);
+        changeIMG(hourlyTempCodes[i], elem);
+    }
+}
 const changeDate = (dates) => {
     for(let i=0; i<5; i++){
         let currElem = `date${i+1}`;
@@ -111,18 +132,34 @@ const changeDailyTemp = (dailyTemp) => {
         elem.innerText = dailyTemp[i] + "°C";
     }
 }
-const changeHour = (hours) => {
+const changeDailyImg= (dailyTempCodes) => {
     for(let i=0; i<5; i++){
-        let currElem = `hour${i+1}`;
+        let currElem = `d-img${i+1}`;
         let elem = document.querySelector(`#${currElem}`);
-        elem.innerText = hours[i];
+        changeIMG(dailyTempCodes[i], elem);
     }
 }
-const changeHourlyTemp = (hourlyTemp) => {
-    for(let i=0; i<5; i++){
-        let currElem = `h${i+1}`;
-        let elem = document.querySelector(`#${currElem}`);
-        elem.innerText = hourlyTemp[i] + "°C";
+
+//Function to change img source for a provided element
+const changeIMG = (code, elem) => {
+    code = Number(code);
+    if(code == 800){
+        elem.setAttribute('src', '/Resources/SVGs/clear.png');
+    }
+    else if(code>=200 && code<=299) {
+        elem.setAttribute('src', '/Resources/SVGs/thunderstorm.png');
+    }
+    else if(code>=300 && code<=599) {
+        elem.setAttribute('src', '/Resources/SVGs/rain.png');
+    }
+    else if(code>=600 && code<=699) {
+        elem.setAttribute('src', '/Resources/SVGs/snow.png');
+    }
+    else if(code>=700 && code<=799) {
+        elem.setAttribute('src', '/Resources/SVGs/fog.png');
+    }
+    else if(code>=801 && code<=899) {
+        elem.setAttribute('src', '/Resources/SVGs/cloud.png');
     }
 }
 
@@ -140,7 +177,7 @@ const triggerLiveChanges = (liveData) => {
     changeBG(liveData.weather[0].id);
 }
 
-//Executes all the individual future-data changes for the website
+// Executes all the individual future-data changes for the website
 const triggerFutureChanges = (futureData) => {
     // ---------- HOURLY FORECAST ----------
     const timezoneOffset = futureData.city.timezone;
@@ -148,8 +185,10 @@ const triggerFutureChanges = (futureData) => {
     const cityCurrentTime = currentUTC + timezoneOffset;
     const futureList = futureData.list.filter(item => (item.dt + timezoneOffset) >= cityCurrentTime);
     const nextFive = futureList.slice(0, 5);
+
     const hours = [];
     const hourlyTemp = [];
+    const hourlyTempCodes = [];
 
     nextFive.forEach(entry => {
         const utcTime = new Date((entry.dt + timezoneOffset) * 1000);
@@ -157,25 +196,28 @@ const triggerFutureChanges = (futureData) => {
         const minutes = utcTime.getUTCMinutes().toString().padStart(2, "0");
         const timeText = `${hour}:${minutes}`;
         const temp = Math.round(entry.main.temp);
+        const code = entry.weather[0].id;
+
         hours.push(timeText);
         hourlyTemp.push(temp);
+        hourlyTempCodes.push(code);
     });
 
     changeHour(hours);
     changeHourlyTemp(hourlyTemp);
-
+    changeHourlyImg(hourlyTempCodes);
 
     // ---------- DAILY FORECAST ----------
     const dailyAggregates = {};
     const daysToShow = 5;
     const targetDates = [];
-    
+
     for (let d = 1; d <= daysToShow; d++) {
         const date = new Date(Date.now() + d * 86400000);
         const cityDate = new Date(date.getTime() + timezoneOffset * 1000);
         const dateKey = cityDate.toISOString().slice(0, 10);
         targetDates.push(dateKey);
-        dailyAggregates[dateKey] = { sum: 0, count: 0 };
+        dailyAggregates[dateKey] = { sum: 0, count: 0, codes: [] };
     }
 
     for (let i = 0; i < futureData.list.length; i++) {
@@ -183,14 +225,17 @@ const triggerFutureChanges = (futureData) => {
         const forecastDate = new Date((forecastItem.dt + timezoneOffset) * 1000)
             .toISOString()
             .slice(0, 10);
+
         if (dailyAggregates[forecastDate]) {
             dailyAggregates[forecastDate].sum += forecastItem.main.temp;
             dailyAggregates[forecastDate].count += 1;
+            dailyAggregates[forecastDate].codes.push(forecastItem.weather[0].id);
         }
     }
 
     const dailyAvgTemps = [];
     const formattedDates = [];
+    const dailyTempCodes = [];
 
     targetDates.forEach(dateKey => {
         const aggregate = dailyAggregates[dateKey];
@@ -198,15 +243,24 @@ const triggerFutureChanges = (futureData) => {
             let average = aggregate.sum / aggregate.count;
             average = parseFloat(average.toFixed(2));
             dailyAvgTemps.push(average);
+
+            const codes = aggregate.codes;
+            const dominantCode = codes.sort((a, b) =>
+                codes.filter(v => v === a).length - codes.filter(v => v === b).length
+            ).pop();
+            dailyTempCodes.push(dominantCode);
         } else {
             dailyAvgTemps.push(null);
+            dailyTempCodes.push(null);
         }
         formattedDates.push(`${dateKey.slice(8, 10)}/${dateKey.slice(5, 7)}`);
     });
 
     changeDate(formattedDates);
     changeDailyTemp(dailyAvgTemps);
+    changeDailyImg(dailyTempCodes);
 };
+
 
 //Triggers an animation for the search bar
 const searchBarError = () => {
@@ -221,7 +275,6 @@ async function main(){
     let city = searchbox.value;
     if(city.trim() === ""){
         city = defaultCity;
-        searchbox.setAttribute('placeholder', 'Kolkata');
     }
     const url1 = URL1 + city.trim();
     const url2 = URL2 + city.trim();
