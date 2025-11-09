@@ -4,6 +4,7 @@ const searchbox = document.querySelector('#searchbox');
 
 const currTemp = document.querySelector('#currTemp');
 const tempDesc = document.querySelector('#tempDesc');
+const place = document.querySelector('#location');
 const feelsLike = document.querySelector('#feelsLike');
 const pressure = document.querySelector('#pressure');
 const wind = document.querySelector('#wind');
@@ -72,6 +73,9 @@ const changeTemp = (val) => {
 const changeTempDesc = (val) => {
     const formatVal = val[0].toUpperCase() + val.slice(1, val.length);
     tempDesc.innerText = formatVal;
+}
+const changeLocation = (val1, val2) => {
+    place.innerText = `${val1}, ${val2}`;
 }
 const changeFeelsLike = (val) => {
     feelsLike.innerText = val + "°C";
@@ -175,6 +179,7 @@ const triggerLiveChanges = (liveData) => {
     changeMinTemp(liveData.main.temp_min);
     changeCityTime(liveData.dt, liveData.timezone);
     changeBG(liveData.weather[0].id);
+    changeLocation(liveData.name, liveData.sys.country);
 }
 
 // Executes all the individual future-data changes for the website

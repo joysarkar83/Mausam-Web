@@ -105,6 +105,18 @@ nav{
     font-weight: 500;
 }
 
+.location-window{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 5px;
+}
+
+.location-window img{
+    height: 20px;
+    width: 20px;
+}
+
 .main-left-container{
     height: 45%;
     width: 90%;
