@@ -60,9 +60,9 @@ const changeBG = (val) => {
         bg.setAttribute('src', '/Resources/Videos/snow.mp4')
     }
     else if(val>=700 && val<=799) {
-        bg.setAttribute('src', '/Resources/Videos/stormy.mp4')
+        bg.setAttribute('src', '/Resources/Videos/foggy.mp4')
     }
-    else{
+    else if(val>=801 && val<=899) {
         bg.setAttribute('src', '/Resources/Videos/cloudy.mp4')
     }
 }
