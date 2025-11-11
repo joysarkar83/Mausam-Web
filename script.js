@@ -14,12 +14,10 @@ const minTemp = document.querySelector('#minTemp');
 const cityTime = document.querySelector('#cityTime');
 
 const defaultCity = "Kolkata";
-// Get your own key please! :)
 const API_KEY = "e3c604123ea3290088442bcbabc77d33";
 const URL1 = `https://api.openweathermap.org/data/2.5/weather?units=metric&appid=${API_KEY}&q=`;
 const URL2 = `https://api.openweathermap.org/data/2.5/forecast?units=metric&appid=${API_KEY}&q=`;
 
-//Async function for Live Data
 async function getLiveData(url1){
     try{
         const rawData = await fetch(url1);
@@ -32,7 +30,6 @@ async function getLiveData(url1){
     }
 }
 
-//Async function for Future Data
 async function getFutureData(url2){
     try{
         const rawData = await fetch(url2);
@@ -45,7 +42,6 @@ async function getFutureData(url2){
     }
 }
 
-//Distrete Change Functions
 const changeBG = (val) => {
     val = Number(val);
     if(val == 800){
@@ -66,85 +62,55 @@ const changeBG = (val) => {
     else if(val>=801 && val<=899) {
         bg.setAttribute('src', '/Resources/Videos/cloud.mp4');
     }
-}
-const changeTemp = (val) => {
-    currTemp.innerText = Math.round(val) + "°C";
-}
-const changeTempDesc = (val) => {
-    const formatVal = val[0].toUpperCase() + val.slice(1, val.length);
-    tempDesc.innerText = formatVal;
-}
-const changeLocation = (val1, val2) => {
-    place.innerText = `${val1}, ${val2}`;
-}
-const changeFeelsLike = (val) => {
-    feelsLike.innerText = val + "°C";
-}
-const changePressure = (val) => {
-    pressure.innerText = val + ' hPa';
-}
-const changeWind = (val) => {
-    wind.innerText = val + ' m/s';
-}
-const changeHumidity = (val) => {
-    humidity.innerText = val + '%';
-}
-const changeMaxTemp = (val) => {
-    maxTemp.innerText = val + "°C";
-}
-const changeMinTemp = (val) => {
-    minTemp.innerText = val + "°C";
-}
+};
+
+const changeTemp = (val) => currTemp.innerText = Math.round(val) + "°C";
+const changeTempDesc = (val) => tempDesc.innerText = val[0].toUpperCase() + val.slice(1);
+const changeLocation = (val1, val2) => place.innerText = `${val1}, ${val2}`;
+const changeFeelsLike = (val) => feelsLike.innerText = val + "°C";
+const changePressure = (val) => pressure.innerText = val + ' hPa';
+const changeWind = (val) => wind.innerText = val + ' m/s';
+const changeHumidity = (val) => humidity.innerText = val + '%';
+const changeMaxTemp = (val) => maxTemp.innerText = val + "°C";
+const changeMinTemp = (val) => minTemp.innerText = val + "°C";
 const changeCityTime = (unixUTC, timezoneOffset) => {
     const localTimestamp = (unixUTC + timezoneOffset) * 1000;
     const localTime = new Date(localTimestamp);
     const timeStr = localTime.toISOString().substring(11, 16);
     cityTime.innerText = timeStr;
 };
+
 const changeHour = (hours) => {
     for(let i=0; i<5; i++){
-        let currElem = `hour${i+1}`;
-        let elem = document.querySelector(`#${currElem}`);
-        elem.innerText = hours[i];
+        document.querySelector(`#hour${i+1}`).innerText = hours[i];
     }
-}
+};
 const changeHourlyTemp = (hourlyTemp) => {
     for(let i=0; i<5; i++){
-        let currElem = `h${i+1}`;
-        let elem = document.querySelector(`#${currElem}`);
-        elem.innerText = hourlyTemp[i] + "°C";
+        document.querySelector(`#h${i+1}`).innerText = hourlyTemp[i] + "°C";
     }
-}
-const changeHourlyImg= (hourlyTempCodes) => {
+};
+const changeHourlyImg = (hourlyTempCodes) => {
     for(let i=0; i<5; i++){
-        let currElem = `h-img${i+1}`;
-        let elem = document.querySelector(`#${currElem}`);
-        changeIMG(hourlyTempCodes[i], elem);
+        changeIMG(hourlyTempCodes[i], document.querySelector(`#h-img${i+1}`));
     }
-}
+};
 const changeDate = (dates) => {
     for(let i=0; i<5; i++){
-        let currElem = `date${i+1}`;
-        let elem = document.querySelector(`#${currElem}`);
-        elem.innerText = dates[i];
+        document.querySelector(`#date${i+1}`).innerText = dates[i];
     }
-}
+};
 const changeDailyTemp = (dailyTemp) => {
     for(let i=0; i<5; i++){
-        let currElem = `d${i+1}`;
-        let elem = document.querySelector(`#${currElem}`);
-        elem.innerText = dailyTemp[i] + "°C";
+        document.querySelector(`#d${i+1}`).innerText = dailyTemp[i] + "°C";
     }
-}
-const changeDailyImg= (dailyTempCodes) => {
+};
+const changeDailyImg = (dailyTempCodes) => {
     for(let i=0; i<5; i++){
-        let currElem = `d-img${i+1}`;
-        let elem = document.querySelector(`#${currElem}`);
-        changeIMG(dailyTempCodes[i], elem);
+        changeIMG(dailyTempCodes[i], document.querySelector(`#d-img${i+1}`));
     }
-}
+};
 
-//Function to change img source for a provided element
 const changeIMG = (code, elem) => {
     code = Number(code);
     if(code == 800){
@@ -165,9 +131,8 @@ const changeIMG = (code, elem) => {
     else if(code>=801 && code<=899) {
         elem.setAttribute('src', '/Resources/SVGs/cloud.png');
     }
-}
+};
 
-//Executes all the individual live-data changes for the website
 const triggerLiveChanges = (liveData) => {
     changeTemp(liveData.main.temp);
     changeTempDesc(liveData.weather[0].description);
@@ -180,9 +145,8 @@ const triggerLiveChanges = (liveData) => {
     changeCityTime(liveData.dt, liveData.timezone);
     changeBG(liveData.weather[0].id);
     changeLocation(liveData.name, liveData.sys.country);
-}
+};
 
-// Executes all the individual future-data changes for the website
 const triggerFutureChanges = (futureData) => {
     // ---------- HOURLY FORECAST ----------
     const timezoneOffset = futureData.city.timezone;
@@ -191,21 +155,15 @@ const triggerFutureChanges = (futureData) => {
     const futureList = futureData.list.filter(item => (item.dt + timezoneOffset) >= cityCurrentTime);
     const nextFive = futureList.slice(0, 5);
 
-    const hours = [];
-    const hourlyTemp = [];
-    const hourlyTempCodes = [];
+    const hours = [], hourlyTemp = [], hourlyTempCodes = [];
 
     nextFive.forEach(entry => {
         const utcTime = new Date((entry.dt + timezoneOffset) * 1000);
         const hour = utcTime.getUTCHours().toString().padStart(2, "0");
         const minutes = utcTime.getUTCMinutes().toString().padStart(2, "0");
-        const timeText = `${hour}:${minutes}`;
-        const temp = Math.round(entry.main.temp);
-        const code = entry.weather[0].id;
-
-        hours.push(timeText);
-        hourlyTemp.push(temp);
-        hourlyTempCodes.push(code);
+        hours.push(`${hour}:${minutes}`);
+        hourlyTemp.push(Math.round(entry.main.temp));
+        hourlyTempCodes.push(entry.weather[0].id);
     });
 
     changeHour(hours);
@@ -225,30 +183,21 @@ const triggerFutureChanges = (futureData) => {
         dailyAggregates[dateKey] = { sum: 0, count: 0, codes: [] };
     }
 
-    for (let i = 0; i < futureData.list.length; i++) {
-        const forecastItem = futureData.list[i];
-        const forecastDate = new Date((forecastItem.dt + timezoneOffset) * 1000)
-            .toISOString()
-            .slice(0, 10);
-
+    for (let forecastItem of futureData.list) {
+        const forecastDate = new Date((forecastItem.dt + timezoneOffset) * 1000).toISOString().slice(0, 10);
         if (dailyAggregates[forecastDate]) {
             dailyAggregates[forecastDate].sum += forecastItem.main.temp;
-            dailyAggregates[forecastDate].count += 1;
+            dailyAggregates[forecastDate].count++;
             dailyAggregates[forecastDate].codes.push(forecastItem.weather[0].id);
         }
     }
 
-    const dailyAvgTemps = [];
-    const formattedDates = [];
-    const dailyTempCodes = [];
-
+    const dailyAvgTemps = [], formattedDates = [], dailyTempCodes = [];
     targetDates.forEach(dateKey => {
         const aggregate = dailyAggregates[dateKey];
-        if (aggregate && aggregate.count > 0) {
-            let average = aggregate.sum / aggregate.count;
-            average = parseFloat(average.toFixed(2));
-            dailyAvgTemps.push(average);
-
+        if (aggregate.count > 0) {
+            const avg = parseFloat((aggregate.sum / aggregate.count).toFixed(2));
+            dailyAvgTemps.push(avg);
             const codes = aggregate.codes;
             const dominantCode = codes.sort((a, b) =>
                 codes.filter(v => v === a).length - codes.filter(v => v === b).length
@@ -266,38 +215,54 @@ const triggerFutureChanges = (futureData) => {
     changeDailyImg(dailyTempCodes);
 };
 
-
-//Triggers an animation for the search bar
 const searchBarError = () => {
     searchbox.classList.add('error');
-    setTimeout(() => {
-        searchbox.classList.remove('error');
-    }, 1000);
-} 
+    setTimeout(() => searchbox.classList.remove('error'), 1000);
+};
 
-//Main trigger for the entire website
-async function main(){
-    let city = searchbox.value;
-    if(city.trim() === ""){
-        city = defaultCity;
-    }
+async function main(city = defaultCity){
     const url1 = URL1 + city.trim();
     const url2 = URL2 + city.trim();
-
     try{
         await getLiveData(url1);
         await getFutureData(url2);
+    } catch(err){
+        console.error("Error fetching city data:", err);
     }
-    catch{}
 }
 
-//Triggers on pressing search button
-searchbtn.addEventListener('click', main);
-document.addEventListener('keypress', (event) => {
-    if(event.key == 'Enter'){
-        main();
+async function initWeather(){
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(successCallback, errorCallback);
+    } else {
+        console.log("Geolocation not supported, using default city.");
+        main(defaultCity);
     }
-});
+}
 
-// Triggers when load
-main();
+async function successCallback(position) {
+    const lat = position.coords.latitude;
+    const lon = position.coords.longitude;
+
+    const url1 = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&units=metric&appid=${API_KEY}`;
+    const url2 = `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&units=metric&appid=${API_KEY}`;
+
+    try {
+        await getLiveData(url1);
+        await getFutureData(url2);
+    } catch (err) {
+        console.error("Error fetching location-based data:", err);
+        main(defaultCity);
+    }
+}
+
+function errorCallback(error) {
+    console.warn("Location access denied or unavailable:", error.message);
+    main(defaultCity);
+}
+
+searchbtn.addEventListener('click', () => main(searchbox.value));
+document.addEventListener('keypress', (event) => {
+    if(event.key === 'Enter') main(searchbox.value);
+});
+window.addEventListener('load', initWeather);
