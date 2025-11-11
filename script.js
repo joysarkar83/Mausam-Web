@@ -13,7 +13,6 @@ const maxTemp = document.querySelector('#maxTemp');
 const minTemp = document.querySelector('#minTemp');
 const cityTime = document.querySelector('#cityTime');
 
-const defaultCity = "Kolkata";
 const API_KEY = "e3c604123ea3290088442bcbabc77d33";
 const URL1 = `https://api.openweathermap.org/data/2.5/weather?units=metric&appid=${API_KEY}&q=`;
 const URL2 = `https://api.openweathermap.org/data/2.5/forecast?units=metric&appid=${API_KEY}&q=`;
@@ -63,7 +62,6 @@ const changeBG = (val) => {
         bg.setAttribute('src', '/Resources/Videos/cloud.mp4');
     }
 };
-
 const changeTemp = (val) => currTemp.innerText = Math.round(val) + "°C";
 const changeTempDesc = (val) => tempDesc.innerText = val[0].toUpperCase() + val.slice(1);
 const changeLocation = (val1, val2) => place.innerText = `${val1}, ${val2}`;
@@ -220,15 +218,12 @@ const searchBarError = () => {
     setTimeout(() => searchbox.classList.remove('error'), 1000);
 };
 
+const defaultCity = "Kolkata";
 async function main(city = defaultCity){
     const url1 = URL1 + city.trim();
     const url2 = URL2 + city.trim();
-    try{
-        await getLiveData(url1);
-        await getFutureData(url2);
-    } catch(err){
-        console.error("Error fetching city data:", err);
-    }
+    getLiveData(url1);
+    getFutureData(url2);
 }
 
 async function initWeather(){
@@ -246,14 +241,9 @@ async function successCallback(position) {
 
     const url1 = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&units=metric&appid=${API_KEY}`;
     const url2 = `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&units=metric&appid=${API_KEY}`;
-
-    try {
-        await getLiveData(url1);
-        await getFutureData(url2);
-    } catch (err) {
-        console.error("Error fetching location-based data:", err);
-        main(defaultCity);
-    }
+    
+    getLiveData(url1);
+    getFutureData(url2);
 }
 
 function errorCallback(error) {
@@ -263,6 +253,8 @@ function errorCallback(error) {
 
 searchbtn.addEventListener('click', () => main(searchbox.value));
 document.addEventListener('keypress', (event) => {
-    if(event.key === 'Enter') main(searchbox.value);
+    if((event.key === 'Enter') && (searchbox.value.trim() !== "")){
+        main(searchbox.value);
+    }
 });
 window.addEventListener('load', initWeather);
