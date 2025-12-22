@@ -13,7 +13,7 @@ const maxTemp = document.querySelector('#maxTemp');
 const minTemp = document.querySelector('#minTemp');
 const cityTime = document.querySelector('#cityTime');
 
-const API_KEY = "<ADD YOUR API KEY HERE>";
+const API_KEY = "e3c604123ea3290088442bcbabc77d33";
 const URL1 = `https://api.openweathermap.org/data/2.5/weather?units=metric&appid=${API_KEY}&q=`;
 const URL2 = `https://api.openweathermap.org/data/2.5/forecast?units=metric&appid=${API_KEY}&q=`;
 
