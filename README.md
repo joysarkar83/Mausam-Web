@@ -26,8 +26,8 @@ The project is built using **vanilla HTML, CSS, and JavaScript**, focusing on AP
 ---
 
 ## 📸 Screenshot
-![Homepage Screenshot 1](Resources/Overview1.png)
-![Homepage Screenshot 1](Resources/Overview2.png)
+![Homepage Screenshot 1](Resources/Overview/overview1.png)
+![Homepage Screenshot 1](Resources/Overview/overview2.png)
 
 ---
 
